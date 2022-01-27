@@ -61,9 +61,11 @@ get_reddit_comments <- function(q = NA, ids = NA, size = 25, fields = NA, sort =
   sort_type <- match.arg(sort_type)
 
   # if we got fields in a character vector, flatten it
-  if (length(fields) > 1) fields <- stringr::str_flatten(fields, collapse = ",")
-  # add created_utc if it's not there
-  if (!stringr::str_detect(fields, "created_utc")) fields <- paste0(fields,",created_utc")
+  if (length(fields) > 1) {
+    fields <- stringr::str_flatten(fields, collapse = ",")
+    # add created_utc if it's not there
+    if (!stringr::str_detect(fields, "created_utc")) fields <- paste0(fields,",created_utc")
+  }
 
   # the search endpoint
   api_endpoint <- "https://api.pushshift.io/reddit/search/comment?"
