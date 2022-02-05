@@ -2,4 +2,5 @@
 
 export("%>%")
 export(get_reddit_comments)
+import(utils)
 importFrom(magrittr,"%>%")

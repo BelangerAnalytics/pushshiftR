@@ -1,4 +1,12 @@
 
+# custom internal function to mimic stringr::str_squish() with no external deps
+base_str_squish <- function(x){
+  # remove leading and trailing whitespace with base functions for no new deps
+  x <- gsub(x = x, pattern = "^\\s+|\\s+$", replacement = "")
+  # replace any double spaces with a single space
+  x <- gsub(x = x, pattern = "\\s+", replacement = " ")
+}
+
 
 created_utc <- public_description <- subscribers <- description <- NULL
 
@@ -57,8 +65,14 @@ ua_string <- "web:socialastronomy:v0.0.1 (by /u/belangeranalytics)"
 #' \dontrun{test <- get_reddit_comments(q = "coffee maker", size = 250)}
 get_reddit_comments <- function(q = NA, ids = NA, size = 25, fields = NA, sort = c("desc", "asc"), sort_type = c("created_utc", "score", "num_comments"), aggs = NA, author = NA, subreddit = NA, after = NA, before = NA, frequency = NA, metadata = FALSE, batch_pause = 1, parse_utc = TRUE, verbose = TRUE){
 
+  # basic input fixing
   sort <- match.arg(sort, sort)
   sort_type <- match.arg(sort_type)
+  q <- base_str_squish(q)
+  ids <- base_str_squish(ids)
+  fields <- base_str_squish(fields)
+  author <- base_str_squish(author)
+  subreddit <- base_str_squish(subreddit)
 
   # if we got fields in a character vector, flatten it
   if (length(fields) > 1) {
