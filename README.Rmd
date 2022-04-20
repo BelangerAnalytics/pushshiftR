@@ -1,0 +1,49 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# pushshiftR
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of pushshiftR is to make it easy to query the Push Shift Reddit comment search API.
+
+
+## Installation
+
+You can install the development version from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("BelangerAnalytics/pushshiftR")
+```
+## Example
+
+This is a basic example which shows you how to do a basic query:
+
+```{r example}
+library(pushshiftR)
+
+# query the PushShift API
+results <- pushshiftR::get_reddit_comments(q = '"quantum field theory"', size = 10, verbose = FALSE)
+
+# print the results (with some trimming/formatting to make a nice table)
+results %>%
+  dplyr::select(author, subreddit, body, created_datetime ) %>%
+  dplyr::mutate(body = stringr::str_trunc(body, width = 200)) %>%
+  dplyr::mutate(body = stringr::str_replace_all(body, "\\n", " ")) %>%
+  knitr::kable()
+
+```

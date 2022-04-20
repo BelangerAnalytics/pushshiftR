@@ -57,7 +57,7 @@ get_reddit_comments(
 \item{verbose}{Debug boolean flag to enable/disable message logging to the console.}
 }
 \value{
-A tibble containing values returned by the API.
+A data frame with class \code{tbl_df} with on row for each comment returned by the API.
 }
 \description{
 Query the PushShift API to search Reddit comments. Does some minimal input

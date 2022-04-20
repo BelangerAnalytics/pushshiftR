@@ -12,7 +12,7 @@ created_utc <- public_description <- subscribers <- description <- NULL
 
 # https://github.com/reddit-archive/reddit/wiki/API
 # <platform>:<app ID>:<version string> (by /u/<reddit username>)
-ua_string <- "web:socialastronomy:v0.0.1 (by /u/belangeranalytics)"
+ua_string <- "pushshiftR:v0.0.1 (by /u/belangeranalytics)"
 
 
 # Methods for calling the pushshift.io Reddit search APIs
@@ -58,7 +58,7 @@ ua_string <- "web:socialastronomy:v0.0.1 (by /u/belangeranalytics)"
 #' @param parse_utc Boolean flag: parse UTC timestamps into human-readable date-times? Default TRUE.
 #' @param verbose Debug boolean flag to enable/disable message logging to the console.
 #'
-#' @return A tibble containing values returned by the API.
+#' @return A data frame with class `tbl_df` with on row for each comment returned by the API.
 #' @export
 #'
 #' @examples
@@ -76,10 +76,11 @@ get_reddit_comments <- function(q = NA, ids = NA, size = 25, fields = NA, sort =
 
   # if we got fields in a character vector, flatten it
   if (length(fields) > 1) {
-    fields <- stringr::str_flatten(fields, collapse = ",")
+    fields <- paste0(fields, collapse = ",")  #stringr::str_flatten(fields, collapse = ",")
     # add created_utc if it's not there
-    if (!stringr::str_detect(fields, "created_utc")) fields <- paste0(fields,",created_utc")
-  }
+    #if (!stringr::str_detect(fields, "created_utc")) fields <- paste0(fields,",created_utc")
+    if (!grepl(x = fields, pattern = "created_utc")) fields <- paste0(fields,",created_utc")
+    }
 
   # the search endpoint
   api_endpoint <- "https://api.pushshift.io/reddit/search/comment?"
@@ -154,7 +155,8 @@ get_reddit_comments <- function(q = NA, ids = NA, size = 25, fields = NA, sort =
 
     response_data <- response$data %>%
       dplyr::as_tibble() %>%
-      dplyr::mutate(dplyr::across(where(is.list), function(x) stringr::str_flatten(as.character(unlist(x)), collapse = ", " ) ))
+      dplyr::mutate(dplyr::across(where(is.list), function(x) paste0(as.character(unlist(x)), collapse = ", " ) ))
+      #dplyr::mutate(dplyr::across(where(is.list), function(x) stringr::str_flatten(as.character(unlist(x)), collapse = ", " ) ))
 
     # if we got nothing, we're jumping out of the for-loop now
     if (nrow(response_data) == 0) {
@@ -178,6 +180,12 @@ get_reddit_comments <- function(q = NA, ids = NA, size = 25, fields = NA, sort =
 
   # remove any duplicates
   all_results <- dplyr::distinct(all_results)
+
+  # fix some common encoding errors with < and >, which are given as "&lt;" and "&gt;"
+
+  all_results <- all_results %>%
+    dplyr::mutate(body = gsub(x = body, pattern = "&gt;", replacement = ">"),
+                  body = gsub(x = body, pattern = "&lt;", replacement = "<"))
 
   # optionally, parse the Unix timestamps into human-readable date-times
   if (parse_utc) {
@@ -219,7 +227,8 @@ get_subreddit_info <- function(subreddit, verbose = TRUE){
   response_data <- response$data %>%
     purrr::map(unlist) %>%
     purrr::map(function(x) if (is.null(x)) {""} else {x}) %>%
-    purrr::map(function(x) if(length(x) > 1) {stringr::str_flatten(x, collapse = ",")} else {x}) %>%
+    #purrr::map(function(x) if(length(x) > 1) {stringr::str_flatten(x, collapse = ",")} else {x}) %>%
+    purrr::map(function(x) if(length(x) > 1) {paste0(x, collapse = ",")} else {x}) %>%
     dplyr::as_tibble() %>%
     dplyr::mutate(subreddit = subreddit) %>%
     dplyr::select(subreddit, url, public_description, subscribers, description)
