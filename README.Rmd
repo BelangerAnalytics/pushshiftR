@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 # pushshiftR
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/belangeranalytics/pushshiftR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/belangeranalytics/pushshiftR/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of pushshiftR is to make it easy to query the Push Shift Reddit comment search API.

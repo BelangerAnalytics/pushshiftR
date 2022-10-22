@@ -5,6 +5,7 @@
 
 <!-- badges: start -->
 
+[![R-CMD-check](https://github.com/belangeranalytics/pushshiftR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/belangeranalytics/pushshiftR/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of pushshiftR is to make it easy to query the Push Shift Reddit
@@ -38,15 +39,15 @@ results %>%
   knitr::kable()
 ```
 
-| author         | subreddit            | body                                                                                                                                                                                                    | created\_datetime   |
-| :------------- | :------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :------------------ |
-| Barycenter0    | astrophysics         | As u/mfb- noted, putting too much thought on the virtual particles being the mechanism is a bit of physics hand-waving. What really is happening under the hood with relativistic quantum field theo…   | 2022-04-20 14:08:54 |
-| NearlyFreeFall | AskReddit            | \> Feynman diagrams \> A Feynman diagram is a representation of quantum field theory processes in terms of particle interactions.                                                                       | 2022-04-20 13:43:49 |
-| ancientright   | globeskepticism      | \> WiFi, where does to come from? If there is a flat earth, then there is no space and therefore no satellites. Fiber-Optic Cables. \> We also know space exists because a dome as suggested by many …  | 2022-04-20 13:10:45 |
-| Bulbasaur2000  | Physics              | The problems you raised are true for all of quantum field theory, not just gravity                                                                                                                      | 2022-04-20 12:39:40 |
-| CimmerianHydra | physicsmemes         | Well it really depends on how those courses are spun. If you do nuclear physics, and the course is geared towards how to use them in applications, it’s a more engineering type course than a physics…  | 2022-04-20 10:40:43 |
-| FalloutHUN     | AskReddit            | Quantum field theory: If you go down the rabbit hole of links until you understand the whole page, your hair turns white.                                                                               | 2022-04-20 08:47:14 |
-| NicolBolas96   | Physics              | \>One major part is that it doesn’t play well with gravity. In particular, it can’t be reconciled with general relativity, as far as we can tell. Dirac was able to make it work with special relativi… | 2022-04-20 08:35:03 |
-| sharkysharkie  | AteistTurk           | Paragrafin ikinci kismi oldukça ilginç devam ediyor. Su ana dek uygulanan taktik belli: verebilecek bir cevap yoksa, kafa karisikligi yaratan bir bütün olarak anlam içermeyen bir karsilik ver ve ka…  | 2022-04-19 20:53:55 |
-| feltsandwich   | Meditation           | A better way to say this is “nothing can be separated from anything else within the universe, and nothing can be outside the universe.” It’s an illusion because to us, the universe appears dualist…   | 2022-04-19 18:28:33 |
-| Away-Event5    | confidentlyincorrect | \>Quantum field theory is a different, more accurate model. Which is entirely mathematical, once again. \>Mathematics is not objective reality Perhaps. But can you name a strictly non-mathematical…   | 2022-04-19 16:28:46 |
+| author       | subreddit          | body                                                                                                                                                                                                    | created_datetime    |
+|:-------------|:-------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:--------------------|
+| Lala5th      | AskPhysics         | I am not really sure what you are looking for. If it is something about the philosophical aspects of the concept then it is probably not the right subreddit. If asking about the physical aspect, t…   | 2022-10-22 14:09:22 |
+| gliesedragon | AskPhysics         | I’ve seen a lot of quantum field theory stuff brought up as an application of abstract algebra, but I’m coming at it more from the pure math side of things and the specifics of physics part are not…  | 2022-10-22 10:38:38 |
+| HattedFerret | Physics            | Many of the crackpots start out as people genuinely and deeply interested in some deep problem. That is respectable. They only start to go down the path towards becoming a crackpot when they sit do…  | 2022-10-22 10:01:43 |
+| Morbius2271  | Funnymemes         | Have you read all these experiments? Tried them yourself? Or do you have faith? I’m not trying to prove God to you, that’s just not how it works. I’m not trying to disprove science either. I’m try…   | 2022-10-21 14:40:35 |
+| 11zaq        | TheoreticalPhysics | Perhaps what you’re looking for are the Schwinger-Dyson equations. Basically, let L’\_i be the variation of the Lagrangian, i.e. the equations of motion for a classical field O_i. Then the Schwinger… | 2022-10-21 13:37:11 |
+| MaoGo        | QuantumComputing   | The consensus is that you can derive equations of larger things from smaller things. So yeah in principle we should be able to start from quantum field theory (and GR) and recover all macroscopic l…  | 2022-10-21 08:47:40 |
+| PlayerBrat   | dankmemes          | It can, if u studied mathematics. 0 = 1 + (-1). Something CAN come out of nothing. The quantum field theory has a very good explanation regarding this. A very common (but not quite accurate) wa…      | 2022-10-21 07:09:28 |
+| vaitum       | AskWomen           | Other people that are only about a few years older than you. They think they have all the brains in the world. I’m not listening to bullshit they say unless they can give me a 100% accurate and de…   | 2022-10-21 03:50:47 |
+| DrXaos       | aliens             | No such thing there is. This zero point energy business is a misunderstanding of quantum field theory. There is indeed some vacuum state which has physical effects which have been measured. But u…    | 2022-10-20 11:16:20 |
+| EigenJim     | physicsmemes       | Quantum (field) theory in curved spacetime &#x200B; Elon becomes Missigno in Cinnabar Islands                                                                                                           | 2022-10-20 10:52:21 |
