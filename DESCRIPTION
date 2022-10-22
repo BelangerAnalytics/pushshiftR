@@ -1,7 +1,7 @@
 Package: pushshiftR
 Type: Package
 Title: Search Reddit comments using the PushShift API
-Version: 0.0.1
+Version: 0.0.2
 Author: Christopher Belanger
 Maintainer: Christopher Belanger <christopher@belangeranalytics.com>
 Description: Query the PushShift API to search Reddit comments. 
