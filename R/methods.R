@@ -80,7 +80,7 @@ get_reddit_comments <- function(q = NA, ids = NA, size = 25, fields = NA, sort =
     # add created_utc if it's not there
     #if (!stringr::str_detect(fields, "created_utc")) fields <- paste0(fields,",created_utc")
     if (!grepl(x = fields, pattern = "created_utc")) fields <- paste0(fields,",created_utc")
-    }
+  }
 
   # the search endpoint
   api_endpoint <- "https://api.pushshift.io/reddit/search/comment?"
@@ -137,38 +137,59 @@ get_reddit_comments <- function(q = NA, ids = NA, size = 25, fields = NA, sort =
     if (!is.na(before)) final_url <- paste0(final_url, sprintf("before=%s&", before))
     if (!is.na(metadata)) final_url <- paste0(final_url, sprintf("metadata=%s&", metadata))
 
-    # get response
-    if (verbose) message(sprintf("Calling API endpoint: %s", final_url))
-    resp <- httr::GET(final_url)
 
-    # on error, send warning, return API response for debugging
-    if (!httr::status_code(resp) == 200){
-      stop (sprintf("Pushshift API returned error code %s.\nFirst few lines of response:\n%s",
-                    httr::status_code(resp),
-                    httr::content(resp, type = "text/json", encoding = "UTF-8")))
+    # get response in a loop to check status codes.
+    # status 429 means we hit the rate limit: pause for increasing numbers of seconds and try 5 times
+    # if we get a good result, or after the fifth try, proceed.
+    # if the result is good, add it to the results.
+    # if the result is not good, return whatever we have so that we don't lose results to date.
+    times <- 0
+    while (times < 5){
+      times <- times + 1
+      if (verbose) message(sprintf("Calling API endpoint: %s", final_url))
+      resp <- httr::GET(final_url)
+
+      # if we didn't get a rate limit warning, exit the loop
+      if (httr::status_code(resp) != 429) break;
+
+      # otherwise optionally alert the user and pause
+      if (verbose) message(sprintf("Try %s: Got error code 429. Waiting for %s seconds...", times, times))
+      Sys.sleep(times)
     }
 
-    # parse response
-    if (verbose) message("API response good, parsing results..")
-    response <- httr::content(resp, type = "text/json", encoding = "UTF-8") %>%
-      jsonlite::fromJSON()
+    # If the status code is anything other than 200, send warning, return API response for debugging
+    if (!httr::status_code(resp) == 200){
+      warning (sprintf("Pushshift API returned error code %s in batch %s of %s. Returning any results already collected.\nFirst few lines of response:\n%s",
+                       httr::status_code(resp), batch, batches,
+                       httr::content(resp, type = "text/json", encoding = "UTF-8")))
+      batch <- batches
+    } else {
 
-    response_data <- response$data %>%
-      dplyr::as_tibble() %>%
-      dplyr::mutate(dplyr::across(where(is.list), function(x) paste0(as.character(unlist(x)), collapse = ", " ) ))
+      # Only do this if we got a good response, status code 200
+
+      # parse response
+      if (verbose) message("API response good, parsing results..")
+      response <- httr::content(resp, type = "text/json", encoding = "UTF-8") %>%
+        jsonlite::fromJSON()
+
+      response_data <- response$data %>%
+        dplyr::as_tibble() %>%
+        dplyr::mutate(dplyr::across(where(is.list), function(x) paste0(as.character(unlist(x)), collapse = ", " ) ))
       #dplyr::mutate(dplyr::across(where(is.list), function(x) stringr::str_flatten(as.character(unlist(x)), collapse = ", " ) ))
 
-    # if we got nothing, we're jumping out of the for-loop now
-    if (nrow(response_data) == 0) {
-      if (verbose) message ("No results found. Stopping now.")
-      break
-    }
+      # if we got nothing, we're jumping out of the for-loop now
+      if (nrow(response_data) == 0) {
+        if (verbose) message ("No results found. Stopping now.")
+        batch <- batches
+      }
 
-    # add what we found
-    all_results <- dplyr::bind_rows(all_results, response_data)
+      # add what we found
+      all_results <- dplyr::bind_rows(all_results, response_data)
 
-    # update our "before" parameter to only look for earlier results
-    before <- min(response_data$created_utc)
+      # update our "before" parameter to only look for earlier results
+      before <- min(response_data$created_utc)
+
+    } # end if good response status 200
 
     # do a pause if we're not at the last batch
     if (batch < batches) {
