@@ -45,8 +45,7 @@ ua_string <- "pushshiftR:v0.0.1 (by /u/belangeranalytics)"
 #' @param ids Get specific comments via their ids. Comma-delimited base36 ids.
 #' @param size Number of results to return. Default is 25; values > 100 handled through batching.
 #' @param fields Return specific fields, either comma-delimited string or character vector. Default is all fields returned. Date/time created is always returned.
-#' @param sort Sort results in a specific order. "desc" (default) or "asc".
-#' @param sort_type Sort by a specific attribute. "score", "num_comments", "created_utc"
+#' @param sort Sort by a specific attribute. "score", "num_comments", "created_utc"
 #' @param aggs Return aggregation summary. *DISABLED BY PUSHSHIFT DUE TO SERVER LOAD*
 #' @param author Restrict to a specific author.
 #' @param subreddit Restrict to a specific subreddit.
@@ -63,11 +62,11 @@ ua_string <- "pushshiftR:v0.0.1 (by /u/belangeranalytics)"
 #'
 #' @examples
 #' \dontrun{test <- get_reddit_comments(q = "coffee maker", size = 250)}
-get_reddit_comments <- function(q = NA, ids = NA, size = 25, fields = NA, sort = c("desc", "asc"), sort_type = c("created_utc", "score", "num_comments"), aggs = NA, author = NA, subreddit = NA, after = NA, before = NA, frequency = NA, metadata = FALSE, batch_pause = 1, parse_utc = TRUE, verbose = TRUE){
+get_reddit_comments <- function(q = NA, ids = NA, size = 25, fields = NA, sort = c("created_utc", "score", "num_comments"), aggs = NA, author = NA, subreddit = NA, after = NA, before = NA, frequency = NA, metadata = FALSE, batch_pause = 1, parse_utc = TRUE, verbose = TRUE){
 
   # basic input fixing
   sort <- match.arg(sort, sort)
-  sort_type <- match.arg(sort_type)
+  #sort_type <- match.arg(sort_type)
   q <- base_str_squish(q)
   ids <- base_str_squish(ids)
   fields <- base_str_squish(fields)
@@ -130,7 +129,7 @@ get_reddit_comments <- function(q = NA, ids = NA, size = 25, fields = NA, sort =
     if (!is.na(size)) final_url <- paste0(final_url, sprintf("size=%s&", size_to_fetch)) # note differs in each batch
     if (!is.na(fields)) final_url <- paste0(final_url, sprintf("fields=%s&", fields))
     if (!is.na(sort)) final_url <- paste0(final_url, sprintf("sort=%s&", sort))
-    if (!is.na(sort_type))  final_url <- paste0(final_url, sprintf("sort_type=%s&", sort_type))
+    #if (!is.na(sort_type))  final_url <- paste0(final_url, sprintf("sort_type=%s&", sort_type))
     if (!is.na(author)) final_url <- paste0(final_url, sprintf("author=%s&", author))
     if (!is.na(subreddit)) final_url <- paste0(final_url, sprintf("subreddit=%s&", subreddit))
     if (!is.na(after)) final_url <- paste0(final_url, sprintf("after=%s&", after))
