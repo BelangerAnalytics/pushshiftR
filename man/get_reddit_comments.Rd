@@ -9,8 +9,7 @@ get_reddit_comments(
   ids = NA,
   size = 25,
   fields = NA,
-  sort = c("desc", "asc"),
-  sort_type = c("created_utc", "score", "num_comments"),
+  sort = c("created_utc", "score", "num_comments"),
   aggs = NA,
   author = NA,
   subreddit = NA,
@@ -32,9 +31,7 @@ get_reddit_comments(
 
 \item{fields}{Return specific fields, either comma-delimited string or character vector. Default is all fields returned. Date/time created is always returned.}
 
-\item{sort}{Sort results in a specific order. "desc" (default) or "asc".}
-
-\item{sort_type}{Sort by a specific attribute. "score", "num_comments", "created_utc"}
+\item{sort}{Sort by a specific attribute. "score", "num_comments", "created_utc"}
 
 \item{aggs}{Return aggregation summary. \emph{DISABLED BY PUSHSHIFT DUE TO SERVER LOAD}}
 
